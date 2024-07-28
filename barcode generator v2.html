@@ -86,6 +86,11 @@
             visibility: visible;
             opacity: 1;
         }
+        .note {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -99,6 +104,7 @@
         <input type="text" id="variablePart" placeholder="أدخل كود الصنف">
         <button onclick="generateQRCode()">توليد QR</button>
         <div id="qrcode"></div>
+        <div class="note">ضع رقم صفر قبل ان تستخدم الباركود</div>
     </div>
 
     <script>
@@ -115,12 +121,12 @@
             const fullNumber = basePart1 + variablePart + basePart2;
 
             // توليد QR
-            const qr = qrcode(0, 'L');
+            const qr = qrcode(0, 'H'); // تغيير مستوى التصحيح إلى 'H'
             qr.addData(fullNumber);
             qr.make();
 
             // عرض QR بحجم أكبر
-            const qrCodeElement = qr.createImgTag();
+            const qrCodeElement = qr.createImgTag(4); // تعيين الحجم إلى 4
             document.getElementById('qrcode').innerHTML = qrCodeElement;
 
             // ضبط حجم الباركود
