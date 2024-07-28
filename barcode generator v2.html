@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد QR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #eef2f7;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 18px;
+            color: #555;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 12px 15px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+        img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -80px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>مولد QR</h1>
+        <div class="tooltip">
+            <label for="variablePart">كود الصنف:</label>
+            <span class="tooltiptext">يرجى إدخال 6 خانات للجزء المتغير.</span>
+        </div>
+        <input type="text" id="variablePart" placeholder="أدخل كود الصنف">
+        <button onclick="generateQRCode()">توليد QR</button>
+        <div id="qrcode"></div>
+    </div>
+
+    <script>
+        function generateQRCode() {
+            const basePart1 = "100000000";  // الجزء الثابت الأول
+            const basePart2 = "1725073110VE090A#2127608752264";  // الجزء الثابت الثاني
+            const variablePart = document.getElementById('variablePart').value;
+
+            if (variablePart.length !== 6) {
+                alert("يرجى إدخال 6 خانات للجزء المتغير.");
+                return;
+            }
+
+            const fullNumber = basePart1 + variablePart + basePart2;
+
+            // توليد QR
+            const qr = qrcode(0, 'L');
+            qr.addData(fullNumber);
+            qr.make();
+
+            // عرض QR بحجم أكبر
+            const qrCodeElement = qr.createImgTag();
+            document.getElementById('qrcode').innerHTML = qrCodeElement;
+
+            // ضبط حجم الباركود
+            const img = document.querySelector('#qrcode img');
+            img.style.width = '100%';
+            img.style.height = 'auto';
+        }
+    </script>
+</body>
+</html>
